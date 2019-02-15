@@ -1,0 +1,26 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/basic_app/
+permissions:
+  - object: /var/www/basic_app
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
+hooks:
+  AfterInstall:
+    - location: scripts/install_dependencies
+      timeout: 1000
+      runas: root
+    - location: scripts/create_enviroment
+      timeout: 1000
+      runas: ec2-user
+  ApplicationStart:
+    - location: scripts/start_server
+      timeout: 1000
+      runas: root
+  ApplicationStop:
+    - location: scripts/stop_server
+      timeout: 1000
+      runas: root
